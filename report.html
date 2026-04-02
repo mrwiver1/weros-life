@@ -424,5 +424,58 @@ ${T.detail}
   </head>
   <body>
     <div id="root"></div>
-  </body>
+  <script>
+(function() {
+  const SUPABASE_URL = 'https://wavhcknviozwadqyjlug.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indhdmhja252aW96d2FkcXlqbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk3MDI4MDAsImV4cCI6MjAyNTI3ODgwMH0.placeholder';
+
+  let saved = false;
+
+  async function saveReport() {
+    if (saved) return;
+
+    const nameEl = document.querySelector('.rpt-name') || document.querySelector('[class*="rpt-name"]');
+    const emailEl = document.querySelector('input[type="email"]');
+    const reportEl = document.querySelector('.rpt-wrap') || document.querySelector('[class*="rpt"]');
+
+    if (!reportEl) return;
+
+    const name = nameEl ? nameEl.textContent.trim() : '';
+    const email = emailEl ? emailEl.value.trim() : '';
+    const reportHtml = reportEl.innerHTML || '';
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/life_reports`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          name: name || null,
+          email: email || null,
+          report_text: reportHtml,
+          source: 'weros-life'
+        })
+      });
+      if (res.ok) { saved = true; console.log('✅ 저장 완료'); }
+      else console.error('❌ 저장 실패', await res.text());
+    } catch(e) {
+      console.error('❌ 오류', e);
+    }
+  }
+
+  const observer = new MutationObserver(() => {
+    const rpt = document.querySelector('.rpt-wrap') || document.querySelector('[class*="rpt"]');
+    if (rpt && !saved) {
+      setTimeout(saveReport, 2000);
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+</body>
 </html>
