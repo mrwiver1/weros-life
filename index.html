@@ -463,6 +463,29 @@ footer {
   .footer-links { flex-wrap: wrap; justify-content: center; }
 }
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const _supabase = window.supabase.createClient(
+    'https://wavhcknviozwadqyjlug.supabase.co',
+    'sb_publishable_iXXu4IQVDeywEGVLjmB2nQ_8vc7fjO1'
+  );
+
+  async function saveLifeReport(email, inputData, resultData) {
+    const reportId = `weros_life_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 6)}`;
+    const { error } = await _supabase.from('reports').insert({
+      report_id: reportId,
+      email: email.toLowerCase().trim(),
+      service: 'life',
+      input_json: inputData,
+      result_json: resultData,
+      paid: false
+    });
+    if (error) { console.error('저장 실패:', error); return null; }
+    localStorage.setItem('weros_life_report_id', reportId);
+    localStorage.setItem('weros_life_email', email.toLowerCase().trim());
+    return reportId;
+  }
+</script>
 </head>
 <body>
 
