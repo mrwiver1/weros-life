@@ -27,9 +27,7 @@ ${JSON.stringify(inputData, null, 2)}`
     });
 
     const data = await response.json();
-    const result = data.content?.map(item => item.text || '').join('') || '결과 생성 실패';
-
-    return res.status(200).json({ result });
+return res.status(response.status).json(data);
   } catch (error) {
     return res.status(500).json({ error: error.message || 'Server error' });
   }
