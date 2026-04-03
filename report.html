@@ -369,7 +369,7 @@ ${re}
 **반드시 끊어야 할 것** :: [한 줄 — 삶을 막아온 반복 패턴과 그 해법]
 **지금 이 시기의 과제** :: [한 줄 — 현재 나이대에 집중해야 할 핵심 행동]
 **가장 빛나는 조건** :: [한 줄 — 이 사람이 최고의 삶을 사는 환경]
-**한 줄 통찰** :: [이 사람이 어떻게 살아야 하는지를 꿰뚫는 단 한 문장]`;Ls("DIRECT"),window.scrollTo({top:0,behavior:"instant"}),D(20),Wo(!0),fo(!0),D(30);const Ws=`이름:${M.name} 성별:${M.gender} 나이:만${Ds}세 MBTI:${M.mbti||"미입력"} 사주:${_s.yearString}${_s.monthString}${_s.dayString}${_s.hourString}`,Qs=(await(await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:3e3,system:'WEROS 자기통찰 분석가. 규칙: 명리 용어 금지(심리/행동 언어만). 이 사람에게만 해당하는 날카로운 분석. "당신은"으로 직접 말걸기. 통찰형 문장 필수. 일반론 금지. 지정된 형식 외 텍스트 절대 금지.',messages:[{role:"user",content:`다음 정보를 분석하세요: ${Ws}
+**한 줄 통찰** :: [이 사람이 어떻게 살아야 하는지를 꿰뚫는 단 한 문장]`;Ls("DIRECT"),window.scrollTo({top:0,behavior:"instant"}),D(20),Wo(!0),fo(!0),D(30);const Ws=`이름:${M.name} 성별:${M.gender} 나이:만${Ds}세 MBTI:${M.mbti||"미입력"} 사주:${_s.yearString}${_s.monthString}${_s.dayString}${_s.hourString}`;const response=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({inputData:Ws})});const resultData=await response.json();const Qs=resultData.content?.map(item=>item.text||"").join("")||"";
 
 아래 형식으로만 작성. 형식 외 다른 텍스트 절대 금지:
 
