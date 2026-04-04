@@ -435,13 +435,12 @@ ${T.detail}
     if (saved) return;
 
     const nameEl = document.querySelector('.rpt-name') || document.querySelector('[class*="rpt-name"]');
-    const emailEl = document.querySelector('input[type="email"]');
     const reportEl = document.querySelector('.rpt-wrap') || document.querySelector('[class*="rpt"]');
 
     if (!reportEl) return;
 
     const name = nameEl ? nameEl.textContent.trim() : '';
-    const email = emailEl ? emailEl.value.trim() : '';
+    const email = localStorage.getItem('weros_life_email') || '';
     const reportHtml = reportEl.innerHTML || '';
 
     try {
