@@ -2,10 +2,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
   try {
-    const { inputData } = req.body;
-
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -13,21 +10,10 @@ export default async function handler(req, res) {
         'x-api-key': process.env.ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01'
       },
-      body: JSON.stringify({
-       model: 'claude-sonnet-4-5',
-        max_tokens: 4000,
-        messages: [
-          {
-            role: 'user',
-            content: `입력 데이터:
-${JSON.stringify(inputData, null, 2)}`
-          }
-        ]
-      })
+      body: JSON.stringify(req.body)
     });
-
     const data = await response.json();
-return res.status(response.status).json(data);
+    return res.status(response.status).json(data);
   } catch (error) {
     return res.status(500).json({ error: error.message || 'Server error' });
   }
